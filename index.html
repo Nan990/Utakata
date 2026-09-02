@@ -118,7 +118,7 @@
             <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-stone-500 hover:text-stone-800 dark:hover:text-stone-200">✕</button>
             <div class="text-center space-y-1">
                 <h3 class="text-lg font-bold text-stone-900 dark:text-stone-100">Masuk ke Utakata</h3>
-                <p class="text-xs text-stone-500 dark:text-stone-400">Masuk untuk menerbitkan karya & foto sampul Anda</p>
+                <p class="text-xs text-stone-500 dark:text-stone-400">Masuk untuk menerbitkan karya & memberikan apresiasi</p>
             </div>
             <button onclick="simulateLogin('Google')" class="w-full bg-white dark:bg-stone-800 border border-stone-300 dark:border-stone-700 py-2.5 rounded-xl text-xs font-medium hover:bg-stone-100 dark:hover:bg-stone-750 transition flex items-center justify-center space-x-2">
                 <svg class="w-4 h-4" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
@@ -127,17 +127,19 @@
         </div>
     </div>
 
-    <!-- Modal Buat Karya (dengan Unggah Foto Sampul) -->
+    <!-- Modal Buat / Edit Karya -->
     <div id="submit-modal" class="fixed inset-0 bg-stone-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-stone-50 dark:bg-stone-900 w-full max-w-lg rounded-2xl p-6 border border-stone-200 dark:border-stone-800 shadow-2xl relative space-y-4 max-h-[90vh] overflow-y-auto">
             <button onclick="closeSubmitModal()" class="absolute top-4 right-4 text-stone-500 hover:text-stone-800 dark:hover:text-stone-200">✕</button>
             
             <div class="space-y-1">
-                <h3 class="text-xl font-bold text-stone-900 dark:text-stone-100">Buat Karya Baru</h3>
-                <p class="text-xs text-stone-500 dark:text-stone-400">Tulis gagasan Anda dan unggah foto sampul karya.</p>
+                <h3 id="modal-form-title" class="text-xl font-bold text-stone-900 dark:text-stone-100">Buat Karya Baru</h3>
+                <p class="text-xs text-stone-500 dark:text-stone-400">Tulis gagasan Anda, unggah foto sampul, atau impor file catatan.</p>
             </div>
 
             <form id="work-form" onsubmit="handleWorkSubmission(event)" class="space-y-3 text-xs">
+                <input type="hidden" id="editing-doc-id" value="">
+
                 <div>
                     <label class="block font-medium mb-1">Judul Karya</label>
                     <input id="work-title" type="text" required placeholder="Tuliskan judul..." class="w-full p-2.5 rounded-lg border border-stone-300 dark:border-stone-700 bg-transparent focus:outline-none focus:ring-1 focus:ring-stone-500">
@@ -152,13 +154,19 @@
                         <option>Puisi Prosa</option>
                     </select>
                 </div>
+
+                <div class="p-3 bg-stone-100/80 dark:bg-stone-800/50 rounded-xl border border-stone-200 dark:border-stone-700 space-y-1.5">
+                    <label class="block font-semibold text-stone-700 dark:text-stone-300">📄 Impor dari File Catatan (.txt, .md, .doc)</label>
+                    <input id="note-file-input" type="file" accept=".txt,.md,.doc,.docx" onchange="importNoteFromFile(event)" class="w-full p-1.5 rounded-lg text-xs bg-transparent">
+                </div>
+
                 <div>
                     <label class="block font-medium mb-1">Foto Sampul Karya (Opsional)</label>
                     <input id="work-cover-file" type="file" accept="image/*" class="w-full p-2 rounded-lg border border-stone-300 dark:border-stone-700 text-xs bg-transparent">
                 </div>
                 <div>
                     <label class="block font-medium mb-1">Isi Tulisan</label>
-                    <textarea id="work-content" rows="6" required placeholder="Tuliskan naskah tulisan Anda di sini..." class="w-full p-2.5 rounded-lg border border-stone-300 dark:border-stone-700 bg-transparent focus:outline-none focus:ring-1 focus:ring-stone-500 font-serif-essay"></textarea>
+                    <textarea id="work-content" rows="6" required placeholder="Tuliskan naskah tulisan Anda..." class="w-full p-2.5 rounded-lg border border-stone-300 dark:border-stone-700 bg-transparent focus:outline-none focus:ring-1 focus:ring-stone-500 font-serif-essay"></textarea>
                 </div>
                 <button type="submit" id="submit-work-btn" class="w-full bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-900 py-2.5 rounded-lg font-semibold hover:opacity-90 transition">
                     Posting Karya
@@ -167,20 +175,20 @@
         </div>
     </div>
 
-    <!-- HALAMAN UTAMA / FEED (BERANDA ALA INSTAGRAM/FACEBOOK) -->
+    <!-- HALAMAN UTAMA / FEED BERANDA -->
     <main id="home-view" class="max-w-2xl mx-auto px-4 py-8 flex-grow relative z-10 w-full">
         <header class="mb-8 text-center space-y-2 border-b border-stone-200 dark:border-stone-800 pb-6">
             <h1 class="text-3xl font-extrabold tracking-tight text-stone-950 dark:text-stone-50">Utakata</h1>
             <p class="text-xs text-stone-500 dark:text-stone-400">Ruang publikasi tulisan, gambar, dan fragmentasi pikiran.</p>
         </header>
 
-        <!-- ESAI UTAMA PERMANEN "JEJAK NIRKARSA" -->
+        <!-- ESAI UTAMA PERMANEN UTAKATA (DENGAN LIKE & KOMEN BANYAK) -->
         <article class="p-6 rounded-2xl bg-stone-100/90 dark:bg-stone-900/90 border border-stone-300 dark:border-stone-700 mb-8 space-y-4 shadow-sm">
             <div class="flex items-center space-x-3">
                 <div class="w-10 h-10 rounded-full bg-stone-800 text-stone-100 flex items-center justify-center font-bold text-xs">U</div>
                 <div>
                     <h4 class="font-bold text-xs text-stone-900 dark:text-stone-100">Utakata</h4>
-                    <p class="text-[10px] text-stone-500">3 September 2026 • <span class="font-semibold text-stone-600 dark:text-stone-400">Esai Eksistensial (Karya Utama)</span></p>
+                    <p class="text-[10px] text-stone-500">3 September 2026 • <span class="font-semibold text-stone-600 dark:text-stone-400">Esai Eksistensial (Karya Master)</span></p>
                 </div>
             </div>
             <div class="space-y-2 cursor-pointer" onclick="showDefaultMasterEssay()">
@@ -188,7 +196,16 @@
                 <p class="text-xs text-stone-600 dark:text-stone-400 font-serif-essay line-clamp-3">
                     Lantai di bawah kakiku terasa seperti sesuatu yang ditarik dari ingatan orang lain—terlalu rata, terlalu diam. Aku duduk menatap tanganku sendiri, mencoba mengingat kapan terakhir kali jemari ini rasanya benar-benar milikku...
                 </p>
-                <span class="text-xs font-semibold text-stone-800 dark:text-stone-200 inline-block pt-1">Baca Selengkapnya →</span>
+            </div>
+            <!-- Baris Interaksi Karya Master -->
+            <div class="pt-2 border-t border-stone-200 dark:border-stone-800 flex items-center justify-between text-xs text-stone-500">
+                <button onclick="toggleMasterLike()" class="flex items-center space-x-1.5 text-rose-500 font-semibold hover:opacity-80 transition">
+                    <span>❤️</span>
+                    <span id="master-like-count">1,248 Suka</span>
+                </button>
+                <div onclick="showDefaultMasterEssay()" class="cursor-pointer hover:underline">
+                    💬 142 Komentar Diskusi
+                </div>
             </div>
         </article>
 
@@ -196,7 +213,7 @@
         <div id="posts-container" class="space-y-6"></div>
     </main>
 
-    <!-- HALAMAN PROFIL PENGGUNA -->
+    <!-- HALAMAN PROFIL PENGGUNA & MANAJEMEN KARYA -->
     <main id="profile-view" class="max-w-2xl mx-auto px-4 py-8 flex-grow relative z-10 w-full hidden">
         <button onclick="showHomeView()" class="mb-6 flex items-center space-x-2 text-xs font-medium text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 transition">
             <span>← Kembali ke Lini Masa</span>
@@ -266,6 +283,10 @@
                     <span class="font-bold text-stone-800 dark:text-stone-200">Rian</span>
                     <p class="text-stone-600 dark:text-stone-400 font-serif-essay">Kalimat "Jegeh nak..." itu memberikan benturan yang luar biasa di bagian akhir.</p>
                 </div>
+                <div class="p-3 rounded-lg bg-stone-100/50 dark:bg-stone-900/50 text-xs space-y-1">
+                    <span class="font-bold text-stone-800 dark:text-stone-200">Siti Rahma</span>
+                    <p class="text-stone-600 dark:text-stone-400 font-serif-essay">Eksplorasi batin yang sangat dalam dan jujur. Menikmati setiap baitnya.</p>
+                </div>
             </div>
         </section>
     </main>
@@ -288,9 +309,41 @@
                 openLoginModal();
                 return;
             }
+            document.getElementById('editing-doc-id').value = "";
+            document.getElementById('modal-form-title').textContent = "Buat Karya Baru";
+            document.getElementById('work-form').reset();
             document.getElementById('submit-modal').classList.remove('hidden'); 
         }
         function closeSubmitModal() { document.getElementById('submit-modal').classList.add('hidden'); }
+
+        function importNoteFromFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('work-content').value = e.target.result;
+                const titleInput = document.getElementById('work-title');
+                if (!titleInput.value) {
+                    titleInput.value = file.name.replace(/\.[^/.]+$/, "");
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        let masterLikes = 1248;
+        let isMasterLiked = false;
+        function toggleMasterLike() {
+            const el = document.getElementById('master-like-count');
+            if (!isMasterLiked) {
+                masterLikes++;
+                isMasterLiked = true;
+            } else {
+                masterLikes--;
+                isMasterLiked = false;
+            }
+            el.textContent = masterLikes.toLocaleString('id-ID') + " Suka";
+        }
 
         const homeView = document.getElementById('home-view');
         const profileView = document.getElementById('profile-view');
@@ -321,7 +374,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Tampilkan Esai Utama "Jejak Nirkarsa"
         function showDefaultMasterEssay() {
             document.getElementById('reader-title').textContent = "Jejak Nirkarsa";
             document.getElementById('reader-date').textContent = "3 September 2026";
@@ -348,7 +400,6 @@
             showReaderView();
         }
 
-        // Posting Komentar
         function postComment() {
             const input = document.getElementById('comment-input');
             if (!input.value.trim()) return;
@@ -405,7 +456,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBBGD-CauHxfAMyDYQLDqV_Jdn7WVJg4K0",
@@ -479,7 +530,6 @@
             }
         });
 
-        // Convert File Foto ke Base64 String
         function fileToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -489,7 +539,6 @@
             });
         }
 
-        // Handle Unggah Postingan Karya
         window.handleWorkSubmission = async function(e) {
             e.preventDefault();
             if (!window.isLoggedIn) {
@@ -497,6 +546,7 @@
                 return;
             }
 
+            const docId = document.getElementById('editing-doc-id').value;
             const title = document.getElementById('work-title').value;
             const category = document.getElementById('work-category').value;
             const content = document.getElementById('work-content').value;
@@ -514,77 +564,153 @@
 
             try {
                 submitBtn.disabled = true;
-                submitBtn.textContent = "Menerbitkan...";
+                submitBtn.textContent = "Menyimpan...";
 
-                await addDoc(collection(db, "works"), {
-                    title: title,
-                    category: category,
-                    content: content,
-                    coverImg: coverBase64,
-                    author: window.currentUser,
-                    authorEmail: window.currentUserEmail,
-                    authorPhoto: window.currentUserPhoto,
-                    createdAt: serverTimestamp(),
-                    dateString: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })
-                });
+                if (docId) {
+                    const updateData = {
+                        title: title,
+                        category: category,
+                        content: content
+                    };
+                    if (coverBase64) updateData.coverImg = coverBase64;
 
-                alert("Karya berhasil diposting!");
+                    await updateDoc(doc(db, "works", docId), updateData);
+                    alert("Karya berhasil diperbarui!");
+                } else {
+                    await addDoc(collection(db, "works"), {
+                        title: title,
+                        category: category,
+                        content: content,
+                        coverImg: coverBase64,
+                        likes: 0,
+                        author: window.currentUser,
+                        authorEmail: window.currentUserEmail,
+                        authorPhoto: window.currentUserPhoto,
+                        createdAt: new Date(),
+                        dateString: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })
+                    });
+                    alert("Karya berhasil diposting!");
+                }
+
                 document.getElementById('work-form').reset();
                 closeSubmitModal();
             } catch (error) {
-                alert("Gagal menerbitkan: " + error.message);
+                alert("Gagal menyimpan: " + error.message);
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = "Posting Karya";
             }
         };
 
-        // Render Kartu Posting Bergaya Medsos
-        function createPostCardHTML(data) {
+        window.openEditModal = function(id, title, category, content) {
+            document.getElementById('editing-doc-id').value = id;
+            document.getElementById('modal-form-title').textContent = "Edit / Revisi Karya";
+            document.getElementById('work-title').value = title;
+            document.getElementById('work-category').value = category;
+            document.getElementById('work-content').value = content;
+            document.getElementById('submit-modal').classList.remove('hidden');
+        };
+
+        window.deleteWork = async function(id) {
+            if (confirm("Apakah Anda yakin ingin menghapus karya ini secara permanen?")) {
+                try {
+                    await deleteDoc(doc(db, "works", id));
+                    alert("Karya telah dihapus.");
+                } catch (error) {
+                    alert("Gagal menghapus: " + error.message);
+                }
+            }
+        };
+
+        window.likePost = async function(id, currentLikes) {
+            if (!window.isLoggedIn) {
+                openLoginModal();
+                return;
+            }
+            try {
+                const newLikes = (currentLikes || 0) + 1;
+                await updateDoc(doc(db, "works", id), {
+                    likes: newLikes
+                });
+            } catch (error) {
+                console.error("Gagal menyukai:", error);
+            }
+        };
+
+        function createPostCardHTML(docId, data, isOwner) {
+            const likesCount = data.likes || 0;
             return `
                 <div class="p-5 rounded-2xl bg-stone-100/90 dark:bg-stone-900/90 border border-stone-200 dark:border-stone-800 space-y-4">
-                    <!-- Header Posting -->
-                    <div class="flex items-center space-x-3">
-                        <img src="${data.authorPhoto || 'https://via.placeholder.com/40'}" class="w-10 h-10 rounded-full object-cover border border-stone-300">
-                        <div>
-                            <h4 class="font-bold text-xs text-stone-900 dark:text-stone-100">${data.author}</h4>
-                            <p class="text-[10px] text-stone-500">${data.dateString || 'Baru saja'} • <span class="font-semibold text-stone-600 dark:text-stone-400">${data.category}</span></p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <img src="${data.authorPhoto || 'https://via.placeholder.com/40'}" class="w-10 h-10 rounded-full object-cover border border-stone-300">
+                            <div>
+                                <h4 class="font-bold text-xs text-stone-900 dark:text-stone-100">${data.author}</h4>
+                                <p class="text-[10px] text-stone-500">${data.dateString || 'Baru saja'} • <span class="font-semibold text-stone-600 dark:text-stone-400">${data.category}</span></p>
+                            </div>
                         </div>
+
+                        ${isOwner ? `
+                            <div class="flex items-center space-x-2 text-xs font-medium">
+                                <button onclick='openEditModal("${docId}", "${data.title.replace(/"/g, '&quot;')}", "${data.category}", "${data.content.replace(/\n/g, '\\n').replace(/"/g, '&quot;')}")' class="text-blue-500 hover:underline">Edit</button>
+                                <button onclick='deleteWork("${docId}")' class="text-red-500 hover:underline">Hapus</button>
+                            </div>
+                        ` : ''}
                     </div>
 
-                    <!-- Sampul Foto Karya -->
                     ${data.coverImg ? `<img src="${data.coverImg}" class="w-full h-64 object-cover rounded-xl border border-stone-200 dark:border-stone-800">` : ''}
 
-                    <!-- Judul & Snippet Isi Karya -->
                     <div class="space-y-2 cursor-pointer" onclick='openCustomReader(${JSON.stringify(data).replace(/'/g, "&apos;")})'>
                         <h2 class="text-xl font-bold text-stone-900 dark:text-stone-100 hover:underline">${data.title}</h2>
                         <p class="text-xs text-stone-600 dark:text-stone-400 font-serif-essay line-clamp-3">${data.content}</p>
-                        <span class="text-xs font-semibold text-stone-800 dark:text-stone-200 inline-block pt-1">Baca Selengkapnya →</span>
+                    </div>
+
+                    <div class="pt-2 border-t border-stone-200 dark:border-stone-800 flex items-center justify-between text-xs text-stone-500">
+                        <button onclick='likePost("${docId}", ${likesCount})' class="flex items-center space-x-1.5 text-rose-500 font-semibold hover:opacity-80 transition">
+                            <span>❤️</span>
+                            <span>${likesCount} Suka</span>
+                        </button>
+                        <span onclick='openCustomReader(${JSON.stringify(data).replace(/'/g, "&apos;")})' class="cursor-pointer hover:underline">Baca & Diskusi →</span>
                     </div>
                 </div>
             `;
         }
 
-        // Realtime Listener Feed
         const postsContainer = document.getElementById('posts-container');
         const userPostsContainer = document.getElementById('user-posts-container');
-        const q = query(collection(db, "works"), orderBy("createdAt", "desc"));
 
-        onSnapshot(q, (snapshot) => {
+        // REALTIME LISTENER AMAN (DENGAN SORTER MANDIRI)
+        onSnapshot(collection(db, "works"), (snapshot) => {
             postsContainer.innerHTML = "";
             userPostsContainer.innerHTML = "";
 
-            snapshot.forEach((doc) => {
-                const data = doc.data();
-                postsContainer.innerHTML += createPostCardHTML(data);
+            let worksList = [];
+            snapshot.forEach((docSnap) => {
+                worksList.push({
+                    id: docSnap.id,
+                    ...docSnap.data()
+                });
+            });
 
-                if (window.isLoggedIn && data.authorEmail === window.currentUserEmail) {
-                    userPostsContainer.innerHTML += createPostCardHTML(data);
+            // Urutkan postingan dari yang paling baru
+            worksList.sort((a, b) => {
+                const timeA = a.createdAt && a.createdAt.seconds ? a.createdAt.seconds : 0;
+                const timeB = b.createdAt && b.createdAt.seconds ? b.createdAt.seconds : 0;
+                return timeB - timeA;
+            });
+
+            worksList.forEach((data) => {
+                const docId = data.id;
+                const isOwner = window.isLoggedIn && data.authorEmail === window.currentUserEmail;
+
+                postsContainer.innerHTML += createPostCardHTML(docId, data, isOwner);
+
+                if (isOwner) {
+                    userPostsContainer.innerHTML += createPostCardHTML(docId, data, true);
                 }
             });
         });
 
-        // Reader View
         window.openCustomReader = function(data) {
             document.getElementById('reader-title').textContent = data.title;
             document.getElementById('reader-date').textContent = data.dateString || 'Baru Saja';
