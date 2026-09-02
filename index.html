@@ -51,10 +51,10 @@
                 <a href="#" onclick="showHomeView(); return false;" class="font-bold tracking-wider text-base uppercase text-stone-900 dark:text-stone-100">Utakata</a>
             </div>
 
-            <!-- Kontrol Kirim Karya, Tema & Login -->
+            <!-- Kontrol Buat Karya, Tema & Login / Profil -->
             <div class="flex items-center space-x-3">
-                <button onclick="openSubmitModal()" class="hidden md:block text-xs font-semibold px-3 py-1.5 rounded-lg border border-stone-300 dark:border-stone-700 hover:bg-stone-200 dark:hover:bg-stone-800 transition">
-                    + Kirim Karya
+                <button onclick="openSubmitModal()" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-stone-300 dark:border-stone-700 hover:bg-stone-200 dark:hover:bg-stone-800 transition">
+                    + Buat Karya
                 </button>
 
                 <button id="theme-toggle" class="p-2 rounded-lg text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-800 transition" title="Ganti Tema">
@@ -62,6 +62,11 @@
                     <svg id="theme-icon-light" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                 </button>
                 
+                <!-- Profile Avatar Navigation -->
+                <div id="user-profile-nav" class="hidden items-center space-x-2">
+                    <img id="user-avatar-nav" onclick="showProfileView()" src="" alt="Profil" class="w-8 h-8 rounded-full border border-stone-300 dark:border-stone-700 object-cover cursor-pointer hover:opacity-80 transition" title="Lihat Profil Saya">
+                </div>
+
                 <button id="auth-btn" onclick="openLoginModal()" class="bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-900 px-3.5 py-1.5 rounded-lg text-xs font-semibold hover:opacity-90 transition">
                     Masuk
                 </button>
@@ -78,26 +83,14 @@
                     <button id="close-menu-btn" class="text-stone-500 hover:text-stone-800 dark:hover:text-stone-200">✕</button>
                 </div>
 
-                <!-- Navigasi Utama -->
                 <div class="space-y-2">
                     <span class="text-[10px] uppercase font-bold text-stone-400 tracking-wider">Navigasi</span>
                     <nav class="space-y-1 text-sm font-medium">
-                        <a href="#" onclick="showHomeView(); closeMenu(); return false;" class="block py-1.5 text-stone-800 dark:text-stone-200 hover:text-stone-500">Beranda / Daftar Karya</a>
+                        <a href="#" onclick="showHomeView(); closeMenu(); return false;" class="block py-1.5 text-stone-800 dark:text-stone-200 hover:text-stone-500">Beranda / Lini Masa</a>
+                        <a href="#" onclick="showProfileView(); closeMenu(); return false;" class="block py-1.5 text-stone-800 dark:text-stone-200 hover:text-stone-500">Profil Saya & Karya Saya</a>
                         <a href="#" onclick="openAuthorModal(); closeMenu(); return false;" class="block py-1.5 text-stone-800 dark:text-stone-200 hover:text-stone-500">Tentang Penulis (Utakata)</a>
-                        <a href="#" onclick="openSubmitModal(); closeMenu(); return false;" class="block py-1.5 text-stone-800 dark:text-stone-200 hover:text-stone-500">+ Kirim Karya</a>
+                        <a href="#" onclick="openSubmitModal(); closeMenu(); return false;" class="block py-1.5 text-stone-800 dark:text-stone-200 hover:text-stone-500">+ Buat Karya Baru</a>
                     </nav>
-                </div>
-
-                <!-- Kategori Karya -->
-                <div class="space-y-2 pt-4 border-t border-stone-200 dark:border-stone-800">
-                    <span class="text-[10px] uppercase font-bold text-stone-400 tracking-wider">Kategori Karya</span>
-                    <div class="space-y-1 text-sm">
-                        <a href="#" class="block py-1 text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100">Esai Eksistensial</a>
-                        <a href="#" class="block py-1 text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100">Fragmentasi Batin</a>
-                        <a href="#" class="block py-1 text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100">Renungan Malam</a>
-                        <a href="#" class="block py-1 text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100">Catatan Lepas</a>
-                        <a href="#" class="block py-1 text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100">Puisi Prosa</a>
-                    </div>
                 </div>
             </div>
 
@@ -107,23 +100,14 @@
         </div>
     </div>
 
-    <!-- Modal Biografi Penulis (Utakata) -->
+    <!-- Modal Biografi Penulis -->
     <div id="author-modal" class="fixed inset-0 bg-stone-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-stone-50 dark:bg-stone-900 w-full max-w-lg rounded-2xl p-6 border border-stone-200 dark:border-stone-800 shadow-2xl relative space-y-4 max-h-[90vh] overflow-y-auto">
+        <div class="bg-stone-50 dark:bg-stone-900 w-full max-w-lg rounded-2xl p-6 border border-stone-200 dark:border-stone-800 shadow-2xl relative space-y-4">
             <button onclick="closeAuthorModal()" class="absolute top-4 right-4 text-stone-500 hover:text-stone-800 dark:hover:text-stone-200">✕</button>
-            
-            <div class="space-y-2">
-                <span class="text-xs font-semibold uppercase tracking-wider text-stone-400">Tentang Penulis</span>
-                <h3 class="text-2xl font-bold text-stone-900 dark:text-stone-100">Utakata</h3>
-            </div>
-
+            <h3 class="text-2xl font-bold text-stone-900 dark:text-stone-100">Utakata</h3>
             <div class="text-sm space-y-3 font-serif-essay leading-relaxed text-stone-700 dark:text-stone-300">
-                <p>
-                    <strong>Utakata</strong> (泡沫) diambil dari istilah yang berarti buih atau gelembung air yang fana—muncul sejenak di permukaan lalu lenyap tanpa jejak.
-                </p>
-                <p>
-                    Sebagai kredo kepenulisan, Utakata memfokuskan karya-karyanya pada eksplorasi batin, fragmentasi memori, krisis eksistensial, serta ironi manusia dalam menghadapi benteng-benteng yang mereka bangun sendiri.
-                </p>
+                <p><strong>Utakata</strong> (泡沫) berarti buih air yang fana—muncul sejenak di permukaan lalu lenyap tanpa jejak.</p>
+                <p>Ruang ini didedikasikan untuk eksplorasi batin, fragmentasi memori, dan arsip tulisan bebas bagi setiap jiwa yang ingin mengabadikan karyanya.</p>
             </div>
         </div>
     </div>
@@ -132,145 +116,110 @@
     <div id="login-modal" class="fixed inset-0 bg-stone-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-stone-50 dark:bg-stone-900 w-full max-w-sm rounded-2xl p-6 border border-stone-200 dark:border-stone-800 shadow-2xl relative space-y-5">
             <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-stone-500 hover:text-stone-800 dark:hover:text-stone-200">✕</button>
-            
             <div class="text-center space-y-1">
                 <h3 class="text-lg font-bold text-stone-900 dark:text-stone-100">Masuk ke Utakata</h3>
-                <p class="text-xs text-stone-500 dark:text-stone-400">Silakan masuk untuk membaca full, memberi komentar, atau mengirim karya</p>
+                <p class="text-xs text-stone-500 dark:text-stone-400">Masuk untuk menerbitkan karya & foto sampul Anda</p>
             </div>
-
-            <div class="space-y-2.5">
-                <button onclick="simulateLogin('Google')" class="w-full bg-white dark:bg-stone-800 border border-stone-300 dark:border-stone-700 py-2 rounded-xl text-xs font-medium hover:bg-stone-100 dark:hover:bg-stone-750 transition">Masuk dengan Google</button>
-                <button onclick="simulateLogin('Facebook')" class="w-full bg-blue-600 text-white py-2 rounded-xl text-xs font-medium hover:bg-blue-700 transition">Masuk dengan Facebook</button>
-                <button onclick="simulateLogin('TikTok')" class="w-full bg-black text-white py-2 rounded-xl text-xs font-medium hover:bg-stone-800 transition">Masuk dengan TikTok</button>
-                <button onclick="simulateLogin('Email')" class="w-full bg-stone-200 dark:bg-stone-700 py-2 rounded-xl text-xs font-medium hover:bg-stone-300 dark:hover:bg-stone-600 transition">Masuk dengan Email</button>
-            </div>
+            <button onclick="simulateLogin('Google')" class="w-full bg-white dark:bg-stone-800 border border-stone-300 dark:border-stone-700 py-2.5 rounded-xl text-xs font-medium hover:bg-stone-100 dark:hover:bg-stone-750 transition flex items-center justify-center space-x-2">
+                <svg class="w-4 h-4" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+                <span>Masuk dengan Google</span>
+            </button>
         </div>
     </div>
 
-    <!-- Modal Kirim Karya -->
+    <!-- Modal Buat Karya (dengan Unggah Foto Sampul) -->
     <div id="submit-modal" class="fixed inset-0 bg-stone-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-stone-50 dark:bg-stone-900 w-full max-w-lg rounded-2xl p-6 border border-stone-200 dark:border-stone-800 shadow-2xl relative space-y-4">
+        <div class="bg-stone-50 dark:bg-stone-900 w-full max-w-lg rounded-2xl p-6 border border-stone-200 dark:border-stone-800 shadow-2xl relative space-y-4 max-h-[90vh] overflow-y-auto">
             <button onclick="closeSubmitModal()" class="absolute top-4 right-4 text-stone-500 hover:text-stone-800 dark:hover:text-stone-200">✕</button>
             
             <div class="space-y-1">
-                <h3 class="text-xl font-bold text-stone-900 dark:text-stone-100">Kirim Karya Anda</h3>
-                <p class="text-xs text-stone-500 dark:text-stone-400">Bagikan esai, fragmentasi, atau renungan batin Anda di Utakata.</p>
+                <h3 class="text-xl font-bold text-stone-900 dark:text-stone-100">Buat Karya Baru</h3>
+                <p class="text-xs text-stone-500 dark:text-stone-400">Tulis gagasan Anda dan unggah foto sampul karya.</p>
             </div>
 
-            <form onsubmit="handleWorkSubmission(event)" class="space-y-3 text-xs">
+            <form id="work-form" onsubmit="handleWorkSubmission(event)" class="space-y-3 text-xs">
                 <div>
                     <label class="block font-medium mb-1">Judul Karya</label>
-                    <input type="text" required placeholder="Tuliskan judul..." class="w-full p-2.5 rounded-lg border border-stone-300 dark:border-stone-700 bg-transparent focus:outline-none focus:ring-1 focus:ring-stone-500">
+                    <input id="work-title" type="text" required placeholder="Tuliskan judul..." class="w-full p-2.5 rounded-lg border border-stone-300 dark:border-stone-700 bg-transparent focus:outline-none focus:ring-1 focus:ring-stone-500">
                 </div>
                 <div>
                     <label class="block font-medium mb-1">Kategori</label>
-                    <select class="w-full p-2.5 rounded-lg border border-stone-300 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 focus:outline-none">
+                    <select id="work-category" class="w-full p-2.5 rounded-lg border border-stone-300 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 focus:outline-none">
                         <option>Esai Eksistensial</option>
                         <option>Fragmentasi Batin</option>
                         <option>Renungan Malam</option>
                         <option>Catatan Lepas</option>
+                        <option>Puisi Prosa</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block font-medium mb-1">Isi Tulisan</label>
-                    <textarea rows="5" required placeholder="Tuliskan naskah karya Anda..." class="w-full p-2.5 rounded-lg border border-stone-300 dark:border-stone-700 bg-transparent focus:outline-none focus:ring-1 focus:ring-stone-500 font-serif-essay"></textarea>
+                    <label class="block font-medium mb-1">Foto Sampul Karya (Opsional)</label>
+                    <input id="work-cover-file" type="file" accept="image/*" class="w-full p-2 rounded-lg border border-stone-300 dark:border-stone-700 text-xs bg-transparent">
                 </div>
-                <button type="submit" class="w-full bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-900 py-2.5 rounded-lg font-semibold hover:opacity-90 transition">
-                    Kirimkan Karya
+                <div>
+                    <label class="block font-medium mb-1">Isi Tulisan</label>
+                    <textarea id="work-content" rows="6" required placeholder="Tuliskan naskah tulisan Anda di sini..." class="w-full p-2.5 rounded-lg border border-stone-300 dark:border-stone-700 bg-transparent focus:outline-none focus:ring-1 focus:ring-stone-500 font-serif-essay"></textarea>
+                </div>
+                <button type="submit" id="submit-work-btn" class="w-full bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-900 py-2.5 rounded-lg font-semibold hover:opacity-90 transition">
+                    Posting Karya
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- HALAMAN UTAMA BLOG -->
-    <main id="home-view" class="max-w-3xl mx-auto px-6 py-12 flex-grow relative z-10 w-full">
-        <header class="mb-12 text-center space-y-2 border-b border-stone-200 dark:border-stone-800 pb-8">
+    <!-- HALAMAN UTAMA / FEED (BERANDA ALA INSTAGRAM/FACEBOOK) -->
+    <main id="home-view" class="max-w-2xl mx-auto px-4 py-8 flex-grow relative z-10 w-full">
+        <header class="mb-8 text-center space-y-2 border-b border-stone-200 dark:border-stone-800 pb-6">
             <h1 class="text-3xl font-extrabold tracking-tight text-stone-950 dark:text-stone-50">Utakata</h1>
-            <p class="text-sm text-stone-500 dark:text-stone-400 max-w-md mx-auto">Ruang arsip tulisan, fragmen batin, dan esai kontemplatif.</p>
+            <p class="text-xs text-stone-500 dark:text-stone-400">Ruang publikasi tulisan, gambar, dan fragmentasi pikiran.</p>
         </header>
 
-        <div class="space-y-8">
-            <article class="p-6 rounded-2xl bg-stone-100/80 dark:bg-stone-900/80 border border-stone-200 dark:border-stone-800 hover:border-stone-400 dark:hover:border-stone-600 transition group cursor-pointer" onclick="showReaderView()">
-                <div class="space-y-3">
-                    <div class="flex items-center space-x-2 text-xs text-stone-500 dark:text-stone-400">
-                        <span>3 September 2026</span>
-                        <span>•</span>
-                        <span class="text-stone-700 dark:text-stone-300 font-medium">Esai Eksistensial</span>
-                    </div>
-                    <h2 class="text-2xl font-bold text-stone-900 dark:text-stone-100 group-hover:underline">Jejak Nirkarsa</h2>
-                    <p class="text-sm text-stone-600 dark:text-stone-400 line-clamp-3 font-serif-essay">
-                        Lantai di bawah kakiku terasa seperti sesuatu yang ditarik dari ingatan orang lain—terlalu rata, terlalu diam. Aku duduk menatap tanganku sendiri, mencoba mengingat kapan terakhir kali jemari ini rasanya benar-benar milikku...
-                    </p>
-                    <div class="pt-2 flex items-center text-xs font-semibold text-stone-800 dark:text-stone-200">
-                        <span>Baca Selengkapnya →</span>
-                    </div>
-                </div>
-            </article>
-        </div>
+        <!-- Container Lini Masa (Feed Karya Pengguna) -->
+        <div id="posts-container" class="space-y-6"></div>
     </main>
 
-    <!-- HALAMAN BACA ESAI -->
+    <!-- HALAMAN PROFIL PENGGUNA (GAYA PROFIL MEDSOS) -->
+    <main id="profile-view" class="max-w-2xl mx-auto px-4 py-8 flex-grow relative z-10 w-full hidden">
+        <button onclick="showHomeView()" class="mb-6 flex items-center space-x-2 text-xs font-medium text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 transition">
+            <span>← Kembali ke Lini Masa</span>
+        </button>
+
+        <div class="bg-stone-100/80 dark:bg-stone-900/80 border border-stone-200 dark:border-stone-800 p-6 rounded-2xl mb-8 flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">
+            <img id="profile-page-avatar" src="" class="w-20 h-20 rounded-full border-2 border-stone-400 object-cover">
+            <div class="text-center md:text-left space-y-1">
+                <h2 id="profile-page-name" class="text-xl font-bold text-stone-900 dark:text-stone-100">Nama Pengguna</h2>
+                <p id="profile-page-email" class="text-xs text-stone-500"></p>
+                <button onclick="window.logoutUser()" class="mt-2 text-xs text-red-500 hover:underline font-semibold">Keluar Akun</button>
+            </div>
+        </div>
+
+        <h3 class="text-lg font-bold mb-4 text-stone-900 dark:text-stone-100">Karya Dipublikasikan oleh Saya</h3>
+        <div id="user-posts-container" class="space-y-6"></div>
+    </main>
+
+    <!-- HALAMAN BACA DETIL ESAI -->
     <main id="reader-view" class="max-w-2xl mx-auto px-6 py-12 flex-grow relative z-10 hidden">
         <button onclick="showHomeView()" class="mb-8 flex items-center space-x-2 text-xs font-medium text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 transition">
-            <span>← Kembali ke Daftar Karya</span>
+            <span>← Kembali ke Lini Masa</span>
         </button>
 
         <article class="space-y-6 font-serif-essay text-lg leading-relaxed text-stone-900 dark:text-stone-100">
-            <header class="font-sans not-serif mb-10 pb-8 border-b border-stone-200 dark:border-stone-800">
-                <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-stone-950 dark:text-stone-50 mb-3">Jejak Nirkarsa</h1>
-                <div class="flex flex-wrap items-center gap-3 text-xs text-stone-500 dark:text-stone-400">
-                    <span>3 September 2026</span>
+            <header class="font-sans not-serif mb-6 pb-6 border-b border-stone-200 dark:border-stone-800 space-y-3">
+                <h1 id="reader-title" class="text-3xl md:text-4xl font-bold tracking-tight text-stone-950 dark:text-stone-50"></h1>
+                <div class="flex items-center space-x-3 text-xs text-stone-500">
+                    <img id="reader-author-photo" src="" class="w-6 h-6 rounded-full object-cover">
+                    <span id="reader-author-name" class="font-semibold text-stone-800 dark:text-stone-200"></span>
                     <span>•</span>
-                    <span>Esai Eksistensial</span>
-                    <span>•</span>
-                    <button onclick="openAuthorModal()" class="underline font-semibold text-stone-700 dark:text-stone-300">Penulis: Utakata</button>
+                    <span id="reader-date"></span>
                 </div>
             </header>
 
-            <p>Lantai di bawah kakiku terasa seperti sesuatu yang ditarik dari ingatan orang lain—terlalu rata, terlalu diam. Aku duduk menatap tanganku sendiri, mencoba mengingat kapan terakhir kali jemari ini rasanya benar-benar milikku.</p>
-            <p>Kegagalan-kegagalan itu datang seperti tumpukan benda asing yang tak punya wujud, namun bobotnya nyata menekan dada. Mereka membengkokkan sudut-sudut ruangan, membuatku meragukkan apa yang dulu kuanggap baik, tapi aku tetap tak mampu mencari mana yang buruk. Semuanya mengabur, seolah kebenaran dan kesalahan hanya dua bayangan yang saling menelan di ruang kosong.</p>
-            <p>Ketidakmampuanku hari ini membuatku menginginkan sesuatu. Menurutku, aku paham betul sesuatu itu apa—sayangnya, rasa inginku tak pernah menemukan jalannya.</p>
-            <p>Ada dorongan yang terus berbisik dari dasar diri. Sebuah ambisi tua yang belum sepenuhnya mati, atau mungkin sekadar rindu pada rasa berdaya. Aku tahu persis ke mana harus melangkah jika ingin memulai kembali. Langkah-langkahnya logis, teorinya sudah di luar kepala. Namun, setiap kali niat itu hendak diwujudkan, gerak tubuhku mendadak kaku. Dorongan itu membentur dinding tak kasat mata di dalam kepalaku sendiri, membalasnya dengan rasa lelah yang teramat sangat.</p>
-            <p>Aku paham betul ada hal dalam diri yang benar-benar membentengi berbagai hasratku.</p>
-            <p>Bukan pintu yang dikunci dari luar, melainkan penyekat yang kupasang sendiri, lapis demi lapis, setiap kali rasa sakit dari kegagalan datang menghantam. Semula benteng itu kubangun sebagai ruang aman, sebuah suaka agar aku tidak lagi terluka. Tapi perlahan, tanpa kusadari, suaka itu mungkin bertransformasi menjadi penjara.</p>
-            <p class="italic text-stone-600 dark:text-stone-400">Terjebak pada pertanyaan yang sama,</p>
-            <p>Kalaupun aku bertanya pada diri sendiri, bahkan pada siapa pun, jawabannya akan selalu sama, dan memang seharusnya begitu. Tapi entahlah, semua jawaban itu tidak pernah benar-benar cukup untuk membuatku merobohkan benteng itu?</p>
-            <blockquote class="my-8 pl-4 italic border-l-2 border-stone-400 dark:border-stone-600 text-stone-700 dark:text-stone-300 font-normal">
-                "Jegeh nak, Jegeh leh se afejengah," suara Ibu dari masa kecil itu masih menggema jernih di dalam kepalaku.
-            </blockquote>
-            <p>Kalimat sederhana itu membentur dinding pikiran dengan keras. Nyatanya aku tak pernah benar-benar membuka mata; aku hanya tumbuh dewasa.</p>
-            <p>Pemahaman rasional hanya berhenti sebagai angka dan logika di kepala. Aku mengerti betul di mana letak masalahnya, dan aku tahu persis apa yang mestinya dilakukan. Namun, ada jarak yang teramat lebar antara sekadar tahu dan memiliki keberanian. Pengetahuan tidak serta-merta menjadi tenaga. Tahu cara merobohkan dinding tidak otomatis membuat tanganku sanggup mengayunkan martil di tanganku.</p>
-            <p class="font-semibold text-xl pt-4">Naif. Di situasi paling membosankan ini, aku mempertanyakan siapa yang membangun benteng sederhana dengan desain begitu kokoh.</p>
+            <div id="reader-cover-container" class="mb-6 hidden">
+                <img id="reader-cover-img" src="" class="w-full max-h-96 object-cover rounded-xl border border-stone-200 dark:border-stone-800">
+            </div>
+
+            <div id="reader-body" class="space-y-6"></div>
         </article>
-
-        <!-- KONTEN KOMENTAR -->
-        <section class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-800 font-sans space-y-6">
-            <h3 class="text-xl font-bold text-stone-900 dark:text-stone-100">Komentar & Diskusi</h3>
-
-            <div id="comment-box-guest" class="p-4 rounded-xl bg-stone-100 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-center space-y-2">
-                <p class="text-xs text-stone-500">Anda harus masuk terlebih dahulu untuk meninggalkan komentar.</p>
-                <button onclick="openLoginModal()" class="text-xs font-semibold underline text-stone-800 dark:text-stone-200">
-                    Masuk atau Tautkan Akun
-                </button>
-            </div>
-
-            <div id="comment-box-user" class="hidden space-y-3">
-                <div class="flex items-center space-x-2 text-xs text-stone-500">
-                    <span>Masuk sebagai: <strong id="user-display-name" class="text-stone-800 dark:text-stone-200">Pengguna</strong></span>
-                </div>
-                <textarea id="comment-input" rows="3" placeholder="Tulis komentar atau tanggapan Anda..." class="w-full p-3 rounded-xl border border-stone-300 dark:border-stone-700 bg-transparent text-xs focus:outline-none focus:ring-1 focus:ring-stone-500"></textarea>
-                <button onclick="postComment()" class="bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-900 px-4 py-2 rounded-lg text-xs font-semibold hover:opacity-90 transition">
-                    Kirim Komentar
-                </button>
-            </div>
-
-            <div id="comments-list" class="space-y-4 pt-4">
-                <div class="p-3 rounded-lg bg-stone-100/50 dark:bg-stone-900/50 text-xs space-y-1">
-                    <span class="font-bold text-stone-800 dark:text-stone-200">Rian</span>
-                    <p class="text-stone-600 dark:text-stone-400 font-serif-essay">Kalimat "Jegeh nak..." itu memberikan benturan yang luar biasa di bagian akhir.</p>
-                </div>
-            </div>
-        </section>
     </main>
 
     <!-- Footer -->
@@ -278,43 +227,8 @@
         <p>© 2026 Utakata. Seluruh hak cipta dilindungi.</p>
     </footer>
 
-    <!-- JavaScript UI & Modal Controls -->
+    <!-- JavaScript UI & Navigation -->
     <script>
-        // Auto Popup Login Setelah 5 Detik
-        setTimeout(() => {
-            if (!window.isLoggedIn) {
-                openLoginModal();
-            }
-        }, 5000);
-
-        // Posting Komentar
-        function postComment() {
-            const input = document.getElementById('comment-input');
-            if (!input.value.trim()) return;
-            
-            const commentsList = document.getElementById('comments-list');
-            const newComment = document.createElement('div');
-            newComment.className = "p-3 rounded-lg bg-stone-100/50 dark:bg-stone-900/50 text-xs space-y-1";
-            newComment.innerHTML = `<span class="font-bold text-stone-800 dark:text-stone-200">${window.currentUser}</span><p class="text-stone-600 dark:text-stone-400 font-serif-essay">${input.value}</p>`;
-            
-            commentsList.prepend(newComment);
-            input.value = "";
-        }
-
-        // Kirim Karya
-        function handleWorkSubmission(e) {
-            e.preventDefault();
-            if (!window.isLoggedIn) {
-                closeSubmitModal();
-                openLoginModal();
-                alert("Silakan masuk terlebih dahulu untuk mengirim karya.");
-                return;
-            }
-            alert("Karya Anda berhasil dikirim dan menunggu peninjauan kurator Utakata!");
-            closeSubmitModal();
-        }
-
-        // Kontrol Modal & Navigation View
         function openAuthorModal() { document.getElementById('author-modal').classList.remove('hidden'); }
         function closeAuthorModal() { document.getElementById('author-modal').classList.add('hidden'); }
         
@@ -331,32 +245,35 @@
         function closeSubmitModal() { document.getElementById('submit-modal').classList.add('hidden'); }
 
         const homeView = document.getElementById('home-view');
+        const profileView = document.getElementById('profile-view');
         const readerView = document.getElementById('reader-view');
-        const readProgress = document.getElementById('read-progress');
+
+        function showHomeView() {
+            profileView.classList.add('hidden');
+            readerView.classList.add('hidden');
+            homeView.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showProfileView() {
+            if (!window.isLoggedIn) {
+                openLoginModal();
+                return;
+            }
+            homeView.classList.add('hidden');
+            readerView.classList.add('hidden');
+            profileView.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
         function showReaderView() {
             homeView.classList.add('hidden');
+            profileView.classList.add('hidden');
             readerView.classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function showHomeView() {
-            readerView.classList.add('hidden');
-            homeView.classList.remove('hidden');
-            readProgress.style.width = "0%";
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        window.onscroll = function() {
-            if (!readerView.classList.contains('hidden')) {
-                let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-                let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                let scrolled = (winScroll / height) * 100;
-                readProgress.style.width = scrolled + "%";
-            }
-        };
-
-        // Dark Mode & Menu Drawer
+        // Dark Mode & Drawer
         const themeToggleBtn = document.getElementById('theme-toggle');
         const darkIcon = document.getElementById('theme-icon-dark');
         const lightIcon = document.getElementById('theme-icon-light');
@@ -389,12 +306,12 @@
         closeMenuBtn.addEventListener('click', closeMenu);
     </script>
 
-    <!-- FIREBASE AUTHENTICATION SDK & INTEGRATION -->
+    <!-- FIREBASE AUTHENTICATION & FIRESTORE DATABASE SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Konfigurasi Asli Firebase milik Proyek Utakata
         const firebaseConfig = {
             apiKey: "AIzaSyBBGD-CauHxfAMyDYQLDqV_Jdn7WVJg4K0",
             authDomain: "utakata-a9143.firebaseapp.com",
@@ -405,60 +322,180 @@
             measurementId: "G-JW63YST9X1"
         };
 
-        // Inisialisasi Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
         const googleProvider = new GoogleAuthProvider();
 
-        // Pemicu Login
         window.simulateLogin = async function(provider) {
             if (provider === 'Google') {
                 try {
-                    const result = await signInWithPopup(auth, googleProvider);
+                    await signInWithPopup(auth, googleProvider);
                     closeLoginModal();
                 } catch (error) {
                     alert("Gagal masuk dengan Google: " + error.message);
                 }
-            } else {
-                alert("Saat ini login diutamakan menggunakan akun Google.");
             }
         };
 
-        // Pemicu Logout
         window.logoutUser = async function() {
             await signOut(auth);
+            showHomeView();
         };
 
-        // Deteksi Status Autentikasi Pengunjung
         onAuthStateChanged(auth, (user) => {
             const authBtn = document.getElementById('auth-btn');
-            const commentGuest = document.getElementById('comment-box-guest');
-            const commentUser = document.getElementById('comment-box-user');
-            const userDisplayName = document.getElementById('user-display-name');
+            const userProfileNav = document.getElementById('user-profile-nav');
+            const userAvatarNav = document.getElementById('user-avatar-nav');
 
             if (user) {
                 window.isLoggedIn = true;
                 window.currentUser = user.displayName || user.email;
+                window.currentUserPhoto = user.photoURL || "https://via.placeholder.com/40";
+                window.currentUserEmail = user.email;
 
-                if (authBtn) {
-                    authBtn.textContent = "Keluar";
-                    authBtn.onclick = window.logoutUser;
-                }
-                if (userDisplayName) userDisplayName.textContent = user.displayName;
-                if (commentGuest) commentGuest.classList.add('hidden');
-                if (commentUser) commentUser.classList.remove('hidden');
+                if (authBtn) authBtn.classList.add('hidden');
+                if (userProfileNav) userProfileNav.classList.remove('hidden');
+                if (userAvatarNav) userAvatarNav.src = window.currentUserPhoto;
+
+                document.getElementById('profile-page-avatar').src = window.currentUserPhoto;
+                document.getElementById('profile-page-name').textContent = window.currentUser;
+                document.getElementById('profile-page-email').textContent = window.currentUserEmail;
             } else {
                 window.isLoggedIn = false;
                 window.currentUser = "";
+                window.currentUserPhoto = "";
+                window.currentUserEmail = "";
 
-                if (authBtn) {
-                    authBtn.textContent = "Masuk";
-                    authBtn.onclick = openLoginModal;
-                }
-                if (commentGuest) commentGuest.classList.remove('hidden');
-                if (commentUser) commentUser.classList.add('hidden');
+                if (authBtn) authBtn.classList.remove('hidden');
+                if (userProfileNav) userProfileNav.classList.add('hidden');
             }
         });
+
+        // Convert File Foto ke Base64 String
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        // Handle Unggah Postingan Karya
+        window.handleWorkSubmission = async function(e) {
+            e.preventDefault();
+            if (!window.isLoggedIn) {
+                openLoginModal();
+                return;
+            }
+
+            const title = document.getElementById('work-title').value;
+            const category = document.getElementById('work-category').value;
+            const content = document.getElementById('work-content').value;
+            const coverFileInput = document.getElementById('work-cover-file');
+            const submitBtn = document.getElementById('submit-work-btn');
+
+            let coverBase64 = "";
+            if (coverFileInput.files.length > 0) {
+                try {
+                    coverBase64 = await fileToBase64(coverFileInput.files[0]);
+                } catch (err) {
+                    console.error("Gagal membaca foto:", err);
+                }
+            }
+
+            try {
+                submitBtn.disabled = true;
+                submitBtn.textContent = "Menerbitkan...";
+
+                await addDoc(collection(db, "works"), {
+                    title: title,
+                    category: category,
+                    content: content,
+                    coverImg: coverBase64,
+                    author: window.currentUser,
+                    authorEmail: window.currentUserEmail,
+                    authorPhoto: window.currentUserPhoto,
+                    createdAt: serverTimestamp(),
+                    dateString: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })
+                });
+
+                alert("Karya berhasil diposting!");
+                document.getElementById('work-form').reset();
+                closeSubmitModal();
+            } catch (error) {
+                alert("Gagal menerbitkan: " + error.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Posting Karya";
+            }
+        };
+
+        // Render Kartu Posting Bergaya Medsos
+        function createPostCardHTML(data) {
+            return `
+                <div class="p-5 rounded-2xl bg-stone-100/90 dark:bg-stone-900/90 border border-stone-200 dark:border-stone-800 space-y-4">
+                    <!-- Header Posting (Foto Profil + Nama) -->
+                    <div class="flex items-center space-x-3">
+                        <img src="${data.authorPhoto || 'https://via.placeholder.com/40'}" class="w-10 h-10 rounded-full object-cover border border-stone-300">
+                        <div>
+                            <h4 class="font-bold text-xs text-stone-900 dark:text-stone-100">${data.author}</h4>
+                            <p class="text-[10px] text-stone-500">${data.dateString || 'Baru saja'} • <span class="font-semibold text-stone-600 dark:text-stone-400">${data.category}</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Sampul Foto Karya -->
+                    ${data.coverImg ? `<img src="${data.coverImg}" class="w-full h-64 object-cover rounded-xl border border-stone-200 dark:border-stone-800">` : ''}
+
+                    <!-- Judul & Snippet Isi Karya -->
+                    <div class="space-y-2 cursor-pointer" onclick='openCustomReader(${JSON.stringify(data).replace(/'/g, "&apos;")})'>
+                        <h2 class="text-xl font-bold text-stone-900 dark:text-stone-100 hover:underline">${data.title}</h2>
+                        <p class="text-xs text-stone-600 dark:text-stone-400 font-serif-essay line-clamp-3">${data.content}</p>
+                        <span class="text-xs font-semibold text-stone-800 dark:text-stone-200 inline-block pt-1">Baca Selengkapnya →</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Realtime Listener Feed
+        const postsContainer = document.getElementById('posts-container');
+        const userPostsContainer = document.getElementById('user-posts-container');
+        const q = query(collection(db, "works"), orderBy("createdAt", "desc"));
+
+        onSnapshot(q, (snapshot) => {
+            postsContainer.innerHTML = "";
+            userPostsContainer.innerHTML = "";
+
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                postsContainer.innerHTML += createPostCardHTML(data);
+
+                if (window.isLoggedIn && data.authorEmail === window.currentUserEmail) {
+                    userPostsContainer.innerHTML += createPostCardHTML(data);
+                }
+            });
+        });
+
+        // Reader View
+        window.openCustomReader = function(data) {
+            document.getElementById('reader-title').textContent = data.title;
+            document.getElementById('reader-date').textContent = data.dateString || 'Baru Saja';
+            document.getElementById('reader-author-name').textContent = data.author;
+            document.getElementById('reader-author-photo').src = data.authorPhoto || 'https://via.placeholder.com/30';
+            
+            const coverContainer = document.getElementById('reader-cover-container');
+            const coverImg = document.getElementById('reader-cover-img');
+            if (data.coverImg) {
+                coverImg.src = data.coverImg;
+                coverContainer.classList.remove('hidden');
+            } else {
+                coverContainer.classList.add('hidden');
+            }
+
+            document.getElementById('reader-body').innerHTML = `<p class="whitespace-pre-line">${data.content}</p>`;
+            showReaderView();
+        };
     </script>
 </body>
 </html>
