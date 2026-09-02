@@ -174,11 +174,29 @@
             <p class="text-xs text-stone-500 dark:text-stone-400">Ruang publikasi tulisan, gambar, dan fragmentasi pikiran.</p>
         </header>
 
-        <!-- Container Lini Masa (Feed Karya Pengguna) -->
+        <!-- ESAI UTAMA PERMANEN "JEJAK NIRKARSA" -->
+        <article class="p-6 rounded-2xl bg-stone-100/90 dark:bg-stone-900/90 border border-stone-300 dark:border-stone-700 mb-8 space-y-4 shadow-sm">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full bg-stone-800 text-stone-100 flex items-center justify-center font-bold text-xs">U</div>
+                <div>
+                    <h4 class="font-bold text-xs text-stone-900 dark:text-stone-100">Utakata</h4>
+                    <p class="text-[10px] text-stone-500">3 September 2026 • <span class="font-semibold text-stone-600 dark:text-stone-400">Esai Eksistensial (Karya Utama)</span></p>
+                </div>
+            </div>
+            <div class="space-y-2 cursor-pointer" onclick="showDefaultMasterEssay()">
+                <h2 class="text-2xl font-bold text-stone-900 dark:text-stone-100 hover:underline">Jejak Nirkarsa</h2>
+                <p class="text-xs text-stone-600 dark:text-stone-400 font-serif-essay line-clamp-3">
+                    Lantai di bawah kakiku terasa seperti sesuatu yang ditarik dari ingatan orang lain—terlalu rata, terlalu diam. Aku duduk menatap tanganku sendiri, mencoba mengingat kapan terakhir kali jemari ini rasanya benar-benar milikku...
+                </p>
+                <span class="text-xs font-semibold text-stone-800 dark:text-stone-200 inline-block pt-1">Baca Selengkapnya →</span>
+            </div>
+        </article>
+
+        <!-- Container Lini Masa (Feed Karya Pengguna Lain) -->
         <div id="posts-container" class="space-y-6"></div>
     </main>
 
-    <!-- HALAMAN PROFIL PENGGUNA (GAYA PROFIL MEDSOS) -->
+    <!-- HALAMAN PROFIL PENGGUNA -->
     <main id="profile-view" class="max-w-2xl mx-auto px-4 py-8 flex-grow relative z-10 w-full hidden">
         <button onclick="showHomeView()" class="mb-6 flex items-center space-x-2 text-xs font-medium text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 transition">
             <span>← Kembali ke Lini Masa</span>
@@ -205,12 +223,12 @@
 
         <article class="space-y-6 font-serif-essay text-lg leading-relaxed text-stone-900 dark:text-stone-100">
             <header class="font-sans not-serif mb-6 pb-6 border-b border-stone-200 dark:border-stone-800 space-y-3">
-                <h1 id="reader-title" class="text-3xl md:text-4xl font-bold tracking-tight text-stone-950 dark:text-stone-50"></h1>
+                <h1 id="reader-title" class="text-3xl md:text-4xl font-bold tracking-tight text-stone-950 dark:text-stone-50">Jejak Nirkarsa</h1>
                 <div class="flex items-center space-x-3 text-xs text-stone-500">
-                    <img id="reader-author-photo" src="" class="w-6 h-6 rounded-full object-cover">
-                    <span id="reader-author-name" class="font-semibold text-stone-800 dark:text-stone-200"></span>
+                    <img id="reader-author-photo" src="" class="w-6 h-6 rounded-full object-cover hidden">
+                    <span id="reader-author-name" class="font-semibold text-stone-800 dark:text-stone-200">Penulis: Utakata</span>
                     <span>•</span>
-                    <span id="reader-date"></span>
+                    <span id="reader-date">3 September 2026</span>
                 </div>
             </header>
 
@@ -220,6 +238,36 @@
 
             <div id="reader-body" class="space-y-6"></div>
         </article>
+
+        <!-- KONTEN KOMENTAR INTERAKTIF -->
+        <section class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-800 font-sans space-y-6">
+            <h3 class="text-xl font-bold text-stone-900 dark:text-stone-100">Komentar & Diskusi</h3>
+
+            <div id="comment-box-guest" class="p-4 rounded-xl bg-stone-100 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-center space-y-2">
+                <p class="text-xs text-stone-500">Anda harus masuk terlebih dahulu untuk meninggalkan komentar.</p>
+                <button onclick="openLoginModal()" class="text-xs font-semibold underline text-stone-800 dark:text-stone-200">
+                    Masuk dengan Google
+                </button>
+            </div>
+
+            <div id="comment-box-user" class="hidden space-y-3">
+                <div class="flex items-center space-x-2 text-xs text-stone-500">
+                    <img id="user-avatar-comment" src="" alt="Foto" class="w-6 h-6 rounded-full border border-stone-300">
+                    <span>Masuk sebagai: <strong id="user-display-name" class="text-stone-800 dark:text-stone-200">Pengguna</strong></span>
+                </div>
+                <textarea id="comment-input" rows="3" placeholder="Tulis komentar atau tanggapan Anda..." class="w-full p-3 rounded-xl border border-stone-300 dark:border-stone-700 bg-transparent text-xs focus:outline-none focus:ring-1 focus:ring-stone-500"></textarea>
+                <button onclick="postComment()" class="bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-900 px-4 py-2 rounded-lg text-xs font-semibold hover:opacity-90 transition">
+                    Kirim Komentar
+                </button>
+            </div>
+
+            <div id="comments-list" class="space-y-4 pt-4">
+                <div class="p-3 rounded-lg bg-stone-100/50 dark:bg-stone-900/50 text-xs space-y-1">
+                    <span class="font-bold text-stone-800 dark:text-stone-200">Rian</span>
+                    <p class="text-stone-600 dark:text-stone-400 font-serif-essay">Kalimat "Jegeh nak..." itu memberikan benturan yang luar biasa di bagian akhir.</p>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Footer -->
@@ -271,6 +319,53 @@
             profileView.classList.add('hidden');
             readerView.classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Tampilkan Esai Utama "Jejak Nirkarsa"
+        function showDefaultMasterEssay() {
+            document.getElementById('reader-title').textContent = "Jejak Nirkarsa";
+            document.getElementById('reader-date').textContent = "3 September 2026";
+            document.getElementById('reader-author-name').textContent = "Penulis: Utakata";
+            document.getElementById('reader-author-photo').classList.add('hidden');
+            document.getElementById('reader-cover-container').classList.add('hidden');
+            
+            document.getElementById('reader-body').innerHTML = `
+                <p>Lantai di bawah kakiku terasa seperti sesuatu yang ditarik dari ingatan orang lain—terlalu rata, terlalu diam. Aku duduk menatap tanganku sendiri, mencoba mengingat kapan terakhir kali jemari ini rasanya benar-benar milikku.</p>
+                <p>Kegagalan-kegagalan itu datang seperti tumpukan benda asing yang tak punya wujud, namun bobotnya nyata menekan dada. Mereka membengkokkan sudut-sudut ruangan, membuatku meragukkan apa yang dulu kuanggap baik, tapi aku tetap tak mampu mencari mana yang buruk. Semuanya mengabur, seolah kebenaran dan kesalahan hanya dua bayangan yang saling menelan di ruang kosong.</p>
+                <p>Ketidakmampuanku hari ini membuatku menginginkan sesuatu. Menurutku, aku paham betul sesuatu itu apa—sayangnya, rasa inginku tak pernah menemukan jalannya.</p>
+                <p>Ada dorongan yang terus berbisik dari dasar diri. Sebuah ambisi tua yang belum sepenuhnya mati, atau mungkin sekadar rindu pada rasa berdaya. Aku tahu persis ke mana harus melangkah jika ingin memulai kembali. Langkah-langkahnya logis, teorinya sudah di luar kepala. Namun, setiap kali niat itu hendak diwujudkan, gerak tubuhku mendadak kaku. Dorongan itu membentur dinding tak kasat mata di dalam kepalaku sendiri, membalasnya dengan rasa lelah yang teramat sangat.</p>
+                <p>Aku paham betul ada hal dalam diri yang benar-benar membentengi berbagai hasratku.</p>
+                <p>Bukan pintu yang dikunci dari luar, melainkan penyekat yang kupasang sendiri, lapis demi lapis, setiap kali rasa sakit dari kegagalan datang menghantam. Semula benteng itu kubangun sebagai ruang aman, sebuah suaka agar aku tidak lagi terluka. Tapi perlahan, tanpa kusadari, suaka itu mungkin bertransformasi menjadi penjara.</p>
+                <p class="italic text-stone-600 dark:text-stone-400">Terjebak pada pertanyaan yang sama,</p>
+                <p>Kalaupun aku bertanya pada diri sendiri, bahkan pada siapa pun, jawabannya akan selalu sama, dan memang seharusnya begitu. Tapi entahlah, semua jawaban itu tidak pernah benar-benar cukup untuk membuatku merobohkan benteng itu?</p>
+                <blockquote class="my-8 pl-4 italic border-l-2 border-stone-400 dark:border-stone-600 text-stone-700 dark:text-stone-300 font-normal">
+                    "Jegeh nak, Jegeh leh se afejengah," suara Ibu dari masa kecil itu masih menggema jernih di dalam kepalaku.
+                </blockquote>
+                <p>Kalimat sederhana itu membentur dinding pikiran dengan keras. Nyatanya aku tak pernah benar-benar membuka mata; aku hanya tumbuh dewasa.</p>
+                <p>Pemahaman rasional hanya berhenti sebagai angka dan logika di kepala. Aku mengerti betul di mana letak masalahnya, dan aku tahu persis apa yang mestinya dilakukan. Namun, ada jarak yang teramat lebar antara sekadar tahu dan memiliki keberanian. Pengetahuan tidak serta-merta menjadi tenaga. Tahu cara merobohkan dinding tidak otomatis membuat tanganku sanggup mengayunkan martil di tanganku.</p>
+                <p class="font-semibold text-xl pt-4">Naif. Di situasi paling membosankan ini, aku mempertanyakan siapa yang membangun benteng sederhana dengan desain begitu kokoh.</p>
+            `;
+            showReaderView();
+        }
+
+        // Posting Komentar
+        function postComment() {
+            const input = document.getElementById('comment-input');
+            if (!input.value.trim()) return;
+            
+            const commentsList = document.getElementById('comments-list');
+            const newComment = document.createElement('div');
+            newComment.className = "p-3 rounded-lg bg-stone-100/50 dark:bg-stone-900/50 text-xs space-y-1";
+            newComment.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <img src="${window.currentUserPhoto || 'https://via.placeholder.com/30'}" class="w-4 h-4 rounded-full">
+                    <span class="font-bold text-stone-800 dark:text-stone-200">${window.currentUser}</span>
+                </div>
+                <p class="text-stone-600 dark:text-stone-400 font-serif-essay pt-1">${input.value}</p>
+            `;
+            
+            commentsList.prepend(newComment);
+            input.value = "";
         }
 
         // Dark Mode & Drawer
@@ -347,6 +442,10 @@
             const authBtn = document.getElementById('auth-btn');
             const userProfileNav = document.getElementById('user-profile-nav');
             const userAvatarNav = document.getElementById('user-avatar-nav');
+            const userAvatarComment = document.getElementById('user-avatar-comment');
+            const commentGuest = document.getElementById('comment-box-guest');
+            const commentUser = document.getElementById('comment-box-user');
+            const userDisplayName = document.getElementById('user-display-name');
 
             if (user) {
                 window.isLoggedIn = true;
@@ -357,6 +456,11 @@
                 if (authBtn) authBtn.classList.add('hidden');
                 if (userProfileNav) userProfileNav.classList.remove('hidden');
                 if (userAvatarNav) userAvatarNav.src = window.currentUserPhoto;
+                if (userAvatarComment) userAvatarComment.src = window.currentUserPhoto;
+                if (userDisplayName) userDisplayName.textContent = user.displayName;
+
+                if (commentGuest) commentGuest.classList.add('hidden');
+                if (commentUser) commentUser.classList.remove('hidden');
 
                 document.getElementById('profile-page-avatar').src = window.currentUserPhoto;
                 document.getElementById('profile-page-name').textContent = window.currentUser;
@@ -369,6 +473,9 @@
 
                 if (authBtn) authBtn.classList.remove('hidden');
                 if (userProfileNav) userProfileNav.classList.add('hidden');
+
+                if (commentGuest) commentGuest.classList.remove('hidden');
+                if (commentUser) commentUser.classList.add('hidden');
             }
         });
 
@@ -436,7 +543,7 @@
         function createPostCardHTML(data) {
             return `
                 <div class="p-5 rounded-2xl bg-stone-100/90 dark:bg-stone-900/90 border border-stone-200 dark:border-stone-800 space-y-4">
-                    <!-- Header Posting (Foto Profil + Nama) -->
+                    <!-- Header Posting -->
                     <div class="flex items-center space-x-3">
                         <img src="${data.authorPhoto || 'https://via.placeholder.com/40'}" class="w-10 h-10 rounded-full object-cover border border-stone-300">
                         <div>
@@ -481,8 +588,15 @@
         window.openCustomReader = function(data) {
             document.getElementById('reader-title').textContent = data.title;
             document.getElementById('reader-date').textContent = data.dateString || 'Baru Saja';
-            document.getElementById('reader-author-name').textContent = data.author;
-            document.getElementById('reader-author-photo').src = data.authorPhoto || 'https://via.placeholder.com/30';
+            document.getElementById('reader-author-name').textContent = "Penulis: " + data.author;
+            
+            const authorPhoto = document.getElementById('reader-author-photo');
+            if (data.authorPhoto) {
+                authorPhoto.src = data.authorPhoto;
+                authorPhoto.classList.remove('hidden');
+            } else {
+                authorPhoto.classList.add('hidden');
+            }
             
             const coverContainer = document.getElementById('reader-cover-container');
             const coverImg = document.getElementById('reader-cover-img');
