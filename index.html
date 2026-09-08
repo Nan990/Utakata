@@ -304,8 +304,8 @@
         <div class="p-4 rounded-2xl bg-stone-100/90 dark:bg-stone-900/90 border border-stone-200 dark:border-stone-800 mb-8 shadow-sm space-y-3">
             <div class="flex items-center space-x-3 cursor-pointer" onclick="openSubmitModal()">
                 <img id="fb-trigger-avatar" src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full border border-stone-300 dark:border-stone-700 object-cover">
-                <div class="flex-grow bg-stone-200/60 dark:bg-stone-800/60 hover:bg-stone-200 dark:hover:bg-stone-800 px-4 py-2.5 rounded-full text-xs text-stone-500 transition">
-                    Apa yang sedang Anda pikirkan, Kak Nan?
+                <div id="fb-trigger-placeholder" class="flex-grow bg-stone-200/60 dark:bg-stone-800/60 hover:bg-stone-200 dark:hover:bg-stone-800 px-4 py-2.5 rounded-full text-xs text-stone-500 transition">
+                    Apa yang sedang Anda pikirkan?
                 </div>
             </div>
 
@@ -803,7 +803,7 @@
             showHomeView();
         };
 
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             const authBtn = document.getElementById('auth-btn');
             const userProfileNav = document.getElementById('user-profile-nav');
             const userAvatarNav = document.getElementById('user-avatar-nav');
@@ -812,6 +812,7 @@
             const commentUser = document.getElementById('comment-box-user');
             const userDisplayName = document.getElementById('user-display-name');
             const fbTriggerAvatar = document.getElementById('fb-trigger-avatar');
+            const fbTriggerPlaceholder = document.getElementById('fb-trigger-placeholder');
 
             if (user) {
                 window.isLoggedIn = true;
@@ -819,12 +820,27 @@
                 window.currentUserPhoto = user.photoURL || "https://via.placeholder.com/40";
                 window.currentUserEmail = user.email;
 
+                // OTOMATIS SIMPAN DATA PENGGUNA KE FIRESTORE KOLEKSI 'users'
+                try {
+                    const userRef = doc(db, "users", user.uid);
+                    await setDoc(userRef, {
+                        uid: user.uid,
+                        name: window.currentUser,
+                        email: window.currentUserEmail,
+                        photoURL: window.currentUserPhoto,
+                        lastLogin: new Date()
+                    }, { merge: true });
+                } catch (e) {
+                    console.error("Gagal menyimpan data akun pengguna:", e);
+                }
+
                 if (authBtn) authBtn.classList.add('hidden');
                 if (userProfileNav) userProfileNav.classList.remove('hidden');
                 if (userAvatarNav) userAvatarNav.src = window.currentUserPhoto;
                 if (userAvatarComment) userAvatarComment.src = window.currentUserPhoto;
                 if (userDisplayName) userDisplayName.textContent = user.displayName;
                 if (fbTriggerAvatar) fbTriggerAvatar.src = window.currentUserPhoto;
+                if (fbTriggerPlaceholder) fbTriggerPlaceholder.textContent = `Apa yang sedang Anda pikirkan, ${user.displayName || 'Penulis'}?`;
 
                 if (commentGuest) commentGuest.classList.add('hidden');
                 if (commentUser) commentUser.classList.remove('hidden');
@@ -840,6 +856,7 @@
 
                 if (authBtn) authBtn.classList.remove('hidden');
                 if (userProfileNav) userProfileNav.classList.add('hidden');
+                if (fbTriggerPlaceholder) fbTriggerPlaceholder.textContent = "Apa yang sedang Anda pikirkan?";
 
                 if (commentGuest) commentGuest.classList.remove('hidden');
                 if (commentUser) commentUser.classList.add('hidden');
